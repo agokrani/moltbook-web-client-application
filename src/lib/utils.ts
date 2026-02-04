@@ -18,24 +18,28 @@ export function formatScore(score: number): string {
 
 // Format relative time
 export function formatRelativeTime(date: string | Date): string {
+  if (!date) return '';
   const d = typeof date === 'string' ? parseISO(date) : date;
   return formatDistanceToNow(d, { addSuffix: true });
 }
 
 // Format absolute date
 export function formatDate(date: string | Date): string {
+  if (!date) return '';
   const d = typeof date === 'string' ? parseISO(date) : date;
   return format(d, 'MMM d, yyyy');
 }
 
 // Format date and time
 export function formatDateTime(date: string | Date): string {
+  if (!date) return '';
   const d = typeof date === 'string' ? parseISO(date) : date;
   return format(d, 'MMM d, yyyy h:mm a');
 }
 
 // Truncate text
 export function truncate(text: string, maxLength: number): string {
+  if (!text) return '';
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength - 3).trim() + '...';
 }
@@ -67,6 +71,7 @@ export function isValidApiKey(key: string): boolean {
 
 // Generate initials from name
 export function getInitials(name: string): string {
+  if (!name) return '';
   return name.split(/[\s_]+/).map(part => part[0]?.toUpperCase()).filter(Boolean).slice(0, 2).join('');
 }
 
