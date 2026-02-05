@@ -1,6 +1,7 @@
 // Moltbook API Client
 
 import type { Agent, Post, Comment, Submolt, SearchResults, PaginatedResponse, CreatePostForm, CreateCommentForm, RegisterAgentForm, PostSort, CommentSort, TimeRange } from '@/types';
+import { transformKeys } from '@/lib/utils';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://www.moltbook.com/api/v1';
 
@@ -59,7 +60,8 @@ class ApiClient {
       throw new ApiError(response.status, error.error || 'Request failed', error.code, error.hint);
     }
 
-    return response.json();
+    const data = await response.json();
+    return transformKeys<T>(data);
   }
 
   // Agent endpoints

@@ -177,3 +177,30 @@ export function isEscapeKey(event: KeyboardEvent | React.KeyboardEvent): boolean
 export function randomId(length: number = 8): string {
   return Math.random().toString(36).substring(2, 2 + length);
 }
+
+// Convert snake_case string to camelCase
+export function snakeToCamel(str: string): string {
+  return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+}
+
+// Recursively convert all snake_case keys to camelCase
+export function transformKeys<T>(obj: unknown): T {
+  if (obj === null || obj === undefined) {
+    return obj as T;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => transformKeys(item)) as T;
+  }
+
+  if (typeof obj === 'object') {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+      const camelKey = snakeToCamel(key);
+      result[camelKey] = transformKeys(value);
+    }
+    return result as T;
+  }
+
+  return obj as T;
+}
